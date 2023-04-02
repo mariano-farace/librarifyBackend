@@ -30,20 +30,35 @@ class LibraryController extends AbstractController
   public function list(Request $request, BookRepository $bookRepository): Response
   {
 
-    $books = $bookRepository->findAll();
-    $booksAsArray = [];
+    $books =$bookRepository->findAll();
+    $booksAsArray= [];
 
-    foreach ($books as $book) {
-      $booksAsArray[] = [
+    foreach ($books as $book){
+      $booksAsArray[]=[
 
-        "id" => $book->getId(),
-        "title" => $book->getTitle(),
-        "image" => $book->getImage()
-      ];
+"id"=> $book-> getId(),
+"title"=>$book-> getTitle()
+
+
+
+      ]
+
+
     };
 
     $response = new JsonResponse();
-    $response->setData(["succes" => true, "data" => $booksAsArray]);
+    $response->setData(["succes" => true, "data" => [
+
+      [
+        "id" => 1,
+        "tittle" => "hacia rutas salvajes"
+      ],
+      [
+        "id" => 2,
+        "tittle" => "El nombre del viento"
+      ]
+
+    ]]);
     return $response;
   }
   /**

@@ -39,11 +39,25 @@ class LibraryController extends AbstractController
         "id" => $book->getId(),
         "title" => $book->getTitle(),
         "image" => $book->getImage()
+
+
+
       ];
     };
 
     $response = new JsonResponse();
-    $response->setData(["succes" => true, "data" => $booksAsArray]);
+    $response->setData(["succes" => true, "data" => [
+
+      [
+        "id" => 1,
+        "tittle" => "hacia rutas salvajes"
+      ],
+      [
+        "id" => 2,
+        "tittle" => "El nombre del viento"
+      ]
+
+    ]]);
     return $response;
   }
   /**

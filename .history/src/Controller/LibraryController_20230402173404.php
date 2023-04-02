@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use App\Repository\BookRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,25 +24,23 @@ class LibraryController extends AbstractController
     $this->logger = $logger;
   }
   /**
-   * @Route("/books", name="books")
+   * @Route("/library/list", name="library")
    */
-  public function list(Request $request, BookRepository $bookRepository): Response
+  public function list(Request $request): Response
   {
-
-    $books = $bookRepository->findAll();
-    $booksAsArray = [];
-
-    foreach ($books as $book) {
-      $booksAsArray[] = [
-
-        "id" => $book->getId(),
-        "title" => $book->getTitle(),
-        "image" => $book->getImage()
-      ];
-    };
-
     $response = new JsonResponse();
-    $response->setData(["succes" => true, "data" => $booksAsArray]);
+    $response->setData(["succes" => true, "data" => [
+
+      [
+        "id" => 1,
+        "tittle" => "hacia rutas salvajes"
+      ],
+      [
+        "id" => 2,
+        "tittle" => "El nombre del viento"
+      ]
+
+    ]]);
     return $response;
   }
   /**
