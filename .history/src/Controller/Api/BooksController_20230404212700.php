@@ -34,9 +34,8 @@ class BooksController extends AbstractFOSRestController
   {
     $book = new Book();
     $form = $this->createForm(BookFormType::class, $book);
-    $form->handleRequest($request);
-    print_r("Gola");
-    if ($form->isSubmitted() && $form->isValid()) {
+    $form->handleRequest(($request));
+    if ($form->isSubmitted() && $form->isValid()()) {
       $em->persist($book);
       $em->flush();
       return $book;

@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Entity\Book;
-use App\Form\Type\BookFormType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -32,15 +31,33 @@ class BooksController extends AbstractFOSRestController
 
   public function postAction(Request $request, BookRepository $bookRepository, EntityManagerInterface $em)
   {
+
+
     $book = new Book();
-    $form = $this->createForm(BookFormType::class, $book);
-    $form->handleRequest($request);
-    print_r("Gola");
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em->persist($book);
-      $em->flush();
-      return $book;
+    $response = new JsonResponse();
+    $title = $request->get("title", null);
+    if (empty($title)) {
+      $response->setData(["success" => false, "data" => null, "error" => "title can not be emty"]);
+      return $response;
     }
-    return $form;
+
+    $book->setTitle($title);
+    $em->persist($book);
+    $em->flush();
+    $response->setData(["success" => true, "data" => [
+
+      [
+        "id" => $book->getId(),
+        "tittle" => $book->getTitle()
+      ],
+
+    ]]);
+
+    return $response;
+
+
+
+
+    return $bookRepository->findAll();
   }
 }
